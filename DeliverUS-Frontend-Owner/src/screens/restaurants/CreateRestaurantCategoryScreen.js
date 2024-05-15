@@ -15,14 +15,14 @@ export default function CreateRestaurantScreen ({ navigation }) {
   const [restaurantCategories, setRestaurantCategories] = useState([])
 
   const initialRestaurantCategoryValues = { name: null }
+
   const validationSchema = yup.object().shape({
     name: yup
       .string()
       .max(50, 'Name too long')
       .required('Name is required')
-      .test('unique', 'Category already exists', n => {
-        restaurantCategories.forEach(cat => n === cat)
-      })
+      .notOneOf(restaurantCategories, 'Category already exists')
+      // .test('unique', 'Category already exists', n => { return !restaurantCategories.some(category => category === n) })
   })
 
   useEffect(() => {
